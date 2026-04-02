@@ -1,0 +1,3 @@
+com\ai\gateway\AiGatewayApplication.class
+com\ai\gateway\config\RestConfig.class
+com\ai\gateway\controller\AiController.class
