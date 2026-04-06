@@ -66,6 +66,9 @@ def search(request: dict):
     query_embedding = get_embedding(query)
     D, I = index.search(np.array([query_embedding]).astype("float32"), k=2)
 
+    indices = vector_store.search(query_embedding)
+    results = [documents[i] for i in np.indices[0]]
+
     results = [documents[i] for i in I[0]]
 
     return {
