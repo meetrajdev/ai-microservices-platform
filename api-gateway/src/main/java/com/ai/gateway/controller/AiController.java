@@ -1,5 +1,6 @@
 package com.ai.gateway.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -9,18 +10,21 @@ import java.util.Map;
 @RequestMapping("/ai")
 public class AiController {
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @GetMapping("/test")
+    public String test() {
+        return "API Gateway working!";
+    }
 
     @PostMapping("/ask")
     public String askQuestion(@RequestBody Map<String, String> request) {
         String question = request.get("question");
-
         String url = "http://localhost:8001/generate";
+        Map<String, String> body = Map.of("prompt", question);
 
-        Map<String, String> body = Map.of("question", question);
-
-        String response = restTemplate.postForObject(url, body, String.class);
-
-        return response;
+        Map response = restTemplate.postForObject(url, body, Map.class);
+        return response.get("response").toString();
     }
 }
